@@ -5,7 +5,7 @@ import os
 import time
 
 from ..core import Node, register_node_type, ThreadPollInput
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 # very usefull URL for this wrapper:
@@ -199,12 +199,12 @@ class Blackrock(Node):
         self.cbSdk.Close(self.nInstance)
 
 
-class BlackrockThread(QtCore.QThread):
+class BlackrockThread(QT.QThread):
     """
     Blackrock thread that grab continuous data.
     """
     def __init__(self, node, parent=None):
-        QtCore.QThread.__init__(self, parent=parent)
+        QT.QThread.__init__(self, parent=parent)
         self.node = node
 
         self.lock = Mutex()

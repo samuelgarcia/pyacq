@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from ..myqt import QT
 import pyqtgraph as pg
 
 import numpy as np
@@ -59,15 +58,15 @@ class QTriggeredOscilloscope(BaseOscilloscope):
     def __init__(self, **kargs):
         BaseOscilloscope.__init__(self, **kargs)
 
-        h = QtWidgets.QHBoxLayout()
+        h = QT.QHBoxLayout()
         self.layout.addLayout(h)
-        self.but_startstop = QtWidgets.QPushButton('Start/Stop', checkable = True, checked = True)
+        self.but_startstop = QT.QPushButton('Start/Stop', checkable = True, checked = True)
         h.addWidget(self.but_startstop)
         self.but_startstop.toggled.connect(self.start_or_stop_trigger)
-        but = QtWidgets.QPushButton('Reset')
+        but = QT.QPushButton('Reset')
         but.clicked.connect(self.reset_stack)
         h.addWidget(but)
-        self.label_count = QtWidgets.QLabel('Nb events:')
+        self.label_count = QT.QLabel('Nb events:')
         h.addWidget(self.label_count)
         h.addStretch()
         

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -11,7 +10,7 @@ import re
 import subprocess
 import sys
 
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 from ..core import Node, register_node_type
@@ -24,9 +23,9 @@ except ImportError:
 
 
 
-class AVThread(QtCore.QThread):
+class AVThread(QT.QThread):
     def __init__(self, out_stream, container, parent=None):
-        QtCore.QThread.__init__(self)
+        QT.QThread.__init__(self)
         self.out_stream = out_stream
         self.container = container
 

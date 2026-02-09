@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 import numpy as np
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 
 from pyacq.core import Node
 from pyacq.viewers.imageviewer import ImageViewer
@@ -30,7 +29,7 @@ class FakeCamera(Node):
     def _initialize(self):
         self.head = 0
         interval = int(1000 / self.sample_rate)
-        self.timer = QtCore.QTimer(singleShot=False, interval=interval)
+        self.timer = QT.QTimer(singleShot=False, interval=interval)
         self.timer.timeout.connect(self.send_data)
     
     def _start(self):
@@ -109,11 +108,11 @@ def test_imageviewer():
     multi.start()
     
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=2000)
+    timer = QT.QTimer(singleShot=True, interval=2000)
     timer.timeout.connect(terminate)
     timer.start()
     
-    app.exec_()
+    app.exec()
 
 
   

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -6,7 +5,7 @@ import time
 import sys
 from pyacq import create_manager
 
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 import pyqtgraph as pg
 from pyacq.core.tests.fakenodes import FakeSender, FakeReceiver, ReceiverWidget
 
@@ -43,11 +42,11 @@ def test_stream_between_local_nodes():
         receiver.stop()
         app.quit()
         
-    timer = QtCore.QTimer(singleShot=True, interval=3000)
+    timer = QT.QTimer(singleShot=True, interval=3000)
     timer.timeout.connect(terminate)
     timer.start()
     
-    app.exec_()
+    app.exec()
     
 
 def test_stream_between_remote_nodes():
@@ -121,11 +120,11 @@ def test_stream_between_local_and_remote_nodes():
         receiver.stop()
         app.quit()
         
-    timer = QtCore.QTimer(singleShot=True, interval=2000)
+    timer = QT.QTimer(singleShot=True, interval=2000)
     timer.timeout.connect(terminate)
     timer.start()
     
-    app.exec_()
+    app.exec()
     
     man.close()
     
@@ -177,11 +176,11 @@ def test_visual_node_both_in_main_qapp_and_remote_qapp():
         receiver1.close()
         app.quit()
         
-    timer = QtCore.QTimer(singleShot=True, interval=2000)
+    timer = QT.QTimer(singleShot=True, interval=2000)
     timer.timeout.connect(terminate)
     timer.start()
     
-    app.exec_()
+    app.exec()
     
     receiver0.close()
     man.close()

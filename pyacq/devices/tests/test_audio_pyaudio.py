@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -9,7 +8,7 @@ import numpy as np
 from pyacq import create_manager
 from pyacq.devices.audio_pyaudio import PyAudio, HAVE_PYAUDIO
 
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 import pyqtgraph as pg
 
 
@@ -35,10 +34,10 @@ def test_local_app_in_out():
         app.quit()
     
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=3000)
+    timer = QT.QTimer(singleShot=True, interval=3000)
     timer.timeout.connect(terminate)
     timer.start()
-    app.exec_()
+    app.exec()
 
 
 @pytest.mark.skipif(not HAVE_PYAUDIO, reason='no have pyaudio')

@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 from pprint import pprint
 
 import pytest
-from pyqtgraph.Qt import QtCore, QtWidgets
+from pyacq.myqt import QT
 
 import pyacq
 from pyacq.devices.openephys_gui_relay import OpenEphysGUIRelay
@@ -14,7 +13,7 @@ from pyacq.viewers import QOscilloscope
 
 @pytest.mark.skipif(True, reason='Need brainamp device to test')
 def test_openephys_gui_relay_nogui():
-    app = QtWidgets.QApplication([])
+    app = QT.QApplication([])
 
     dev = OpenEphysGUIRelay()
     dev.configure(openephys_url='tcp://127.0.0.1:20000')
@@ -38,13 +37,13 @@ def test_openephys_gui_relay_nogui():
 
     dev.stop()
 
-    # ~ app.exec_()
+    # ~ app.exec()
 
 
 @pytest.mark.skipif(True, reason='Need brainamp device to test')
 def test_openephys_gui_relay():
     # in main App
-    app = QtWidgets.QApplication([])
+    app = QT.QApplication([])
 
     dev = OpenEphysGUIRelay()
     dev.configure(openephys_url='tcp://127.0.0.1:20000')
@@ -70,11 +69,11 @@ def test_openephys_gui_relay():
         app.quit()
 
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=5000)
+    timer = QT.QTimer(singleShot=True, interval=5000)
     # ~ timer.timeout.connect(terminate)
     # ~ timer.start()
 
-    app.exec_()
+    app.exec()
 
 
 if __name__ == '__main__':

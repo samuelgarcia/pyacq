@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -8,7 +7,7 @@ import numpy as np
 import pyqtgraph as pg
 import pytest
 import scipy.signal
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 
 from pyacq import NumpyDeviceBuffer
 from pyacq.dsp.sosfilter import SosFilter, HAVE_PYOPENCL, sosfilter_engines
@@ -83,11 +82,11 @@ def do_filtertest(engine):
         app.quit()
     
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=3000)
+    timer = QT.QTimer(singleShot=True, interval=3000)
     timer.timeout.connect(terminate)
     timer.start()
     
-    app.exec_()
+    app.exec()
 
 def test_sosfilter():
     do_filtertest('scipy')

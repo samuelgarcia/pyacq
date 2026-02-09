@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 import pyqtgraph as pg
 import numpy as np
 from pyqtgraph.util.mutex import Mutex
@@ -15,7 +14,7 @@ class ThreadPollInputUntilPosLimit(ThreadPollInput):
     """
     Thread waiting a futur pos in a stream.
     """
-    limit_reached = QtCore.pyqtSignal(int)
+    limit_reached = QT.pyqtSignal(int)
     def __init__(self,input_stream,  **kargs):
         ThreadPollInput.__init__(self, input_stream, **kargs)
         
@@ -43,7 +42,7 @@ class ThreadPollInputUntilPosLimit(ThreadPollInput):
     
     
 
-class TriggerAccumulator(Node,  QtCore.QObject):
+class TriggerAccumulator(Node,  QT.QObject):
     """
     Node that accumulate in a ring buffer chunk of a multi signals on trigger events.
     
@@ -77,10 +76,10 @@ class TriggerAccumulator(Node,  QtCore.QObject):
             { 'name' : 'stack_size', 'type' :'int', 'value' : 1,  'limits':[1,np.inf] },
                 ]
     
-    new_chunk = QtCore.pyqtSignal(int)
+    new_chunk = QT.pyqtSignal(int)
     
     def __init__(self, parent = None, **kargs):
-        QtCore.QObject.__init__(self, parent)
+        QT.QObject.__init__(self, parent)
         Node.__init__(self, **kargs)
         self.params = pg.parametertree.Parameter.create( name='Accumulator options',
                                                     type='group', children =self._default_params)

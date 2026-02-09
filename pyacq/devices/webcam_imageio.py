@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 import numpy as np
 
 from ..core import Node, register_node_type
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 try:
@@ -17,9 +16,9 @@ except ImportError:
 import time
 
 
-class ImageIOThread(QtCore.QThread):
+class ImageIOThread(QT.QThread):
     def __init__(self, out_stream, reader, parent=None):
-        QtCore.QThread.__init__(self)
+        QT.QThread.__init__(self)
         self.out_stream= out_stream
         self.reader = reader
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -300,10 +299,12 @@ def test_qt_rpc():
         
         def run(self):
             client = RPCClient(self.addr)
-            qt = client._import('pyqtgraph.Qt')
+            # qt = client._import('pyqtgraph.Qt')
+            qt = client._import('pyacq.myqt')
+
             # widget creation happens in main GUI thread; we are working with
             # proxies from here.
-            self.l = qt.QtWidgets.QLabel('remote-controlled label')
+            self.l = qt.QT.QLabel('remote-controlled label')
             self.l.show()
             time.sleep(0.3)
             self.l.hide()
@@ -390,7 +391,7 @@ def test_disconnect():
 
 
 if __name__ == '__main__':
-    #~ test_rpc()
+    test_rpc()
     test_qt_rpc()
-    #~ test_disconnect()
+    test_disconnect()
     

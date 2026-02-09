@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -12,7 +11,7 @@ import traceback
 
 import numpy as np
 import zmq
-from pyqtgraph.Qt import QtCore, QtWidgets
+from ...myqt import QT
 
 from . import log
 from .proxy import ObjectProxy
@@ -522,7 +521,7 @@ class QtRPCServer(RPCServer):
         
         # Display a widget from the new process.
         qtwidgets = proc._import('PyQt4.QtWidgets')
-        w = qtwidgets.QWidget()
+        w = QT.QWidget()
         w.show()
         
     Starting in an existing Qt application::
@@ -550,7 +549,7 @@ class QtRPCServer(RPCServer):
         # this method is called from the Qt main thread.
         if action == 'close':
             if self.quit_on_close:
-                QtWidgets.QApplication.instance().quit()
+                QT.QApplication.instance().quit()
             # can't stop poller thread here--that would prevent the return 
             # message being sent. In general it should be safe to leave this thread
             # running anyway.
@@ -564,7 +563,7 @@ class QtRPCServer(RPCServer):
         time.sleep(0.1)
 
 
-class QtPollThread(QtCore.QThread):
+class QtPollThread(QT.QThread):
     """Thread that polls an RPCServer socket and sends incoming messages to the
     server by Qt signal.
     
@@ -572,12 +571,12 @@ class QtPollThread(QtCore.QThread):
     a timer to poll the RPC socket. Responses are sent back to the poller
     thread by a secondary socket.
     """
-    new_request = QtCore.Signal(object, object)  # client, msg
+    new_request = QT.Signal(object, object)  # client, msg
     
     def __init__(self, server):
         # Note: QThread behaves like threading.Thread(daemon=True); a running
         # QThread will not prevent the process from exiting.
-        QtCore.QThread.__init__(self)
+        QT.QThread.__init__(self)
         self.server = server
         
         # Steal RPC socket from the server; it should not be touched outside the

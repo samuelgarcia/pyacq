@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -6,7 +5,7 @@ from collections import OrderedDict
 
 from ..core import WidgetNode, register_node_type, InputStream
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from ..myqt import QT
 
 import numpy as np
 import pyqtgraph as pg
@@ -22,7 +21,7 @@ class ImageViewer(WidgetNode):
     def __init__(self, **kargs):
         WidgetNode.__init__(self, **kargs)
         
-        self.layout = QtWidgets.QHBoxLayout()
+        self.layout = QT.QHBoxLayout()
         self.setLayout(self.layout)
 
 
@@ -60,7 +59,7 @@ class ImageViewer(WidgetNode):
     def _initialize(self):
         all_rates = [input.params['sample_rate'] for k, input in self.inputs.items()]
         max_rate = max(all_rates)
-        self.timer = QtCore.QTimer(singleShot=False)
+        self.timer = QT.QTimer(singleShot=False)
         self.timer.setInterval(int(1. / max_rate * 1000))
         self.timer.timeout.connect(self.poll_socket)
         
@@ -118,7 +117,7 @@ class ImageViewer(WidgetNode):
     def __init__(self, **kargs):
         WidgetNode.__init__(self, **kargs)
         
-        self.layout = QtWidgets.QHBoxLayout()
+        self.layout = QT.QHBoxLayout()
         self.setLayout(self.layout)
         
         self.canvas = vispy.scene.SceneCanvas(keys='interactive', show=True)
@@ -146,7 +145,7 @@ class ImageViewer(WidgetNode):
         # please luke hepl me here I do not known how to range the image in the full canvas
         self.view.camera.rect = (0,0) + tuple(in_params['shape'][:2])
         
-        self.timer = QtCore.QTimer(singleShot=False)
+        self.timer = QT.QTimer(singleShot=False)
         self.timer.setInterval(int(1./in_params['sample_rate']*1000))
         self.timer.timeout.connect(self.poll_socket)
 

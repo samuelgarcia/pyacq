@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -8,7 +7,7 @@ from pyacq import create_manager
 from pyacq.devices.blackrock import Blackrock, open_sbSdk_dll, cbSdkConnection, CbSdkError
 from pyacq.viewers import QOscilloscope
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from pyacq.myqt import QT
 
 import pytest
 
@@ -50,7 +49,7 @@ def test_blackrock():
     
 
     # in main App
-    app = QtWidgets.QApplication([])
+    app = QT.QApplication([])
     
     # for testing in background
     #~ man = create_manager(auto_close_at_exit=True)
@@ -103,11 +102,11 @@ def test_blackrock():
             app.quit()
     
     # start  and stop 3 times
-    timer = QtCore.QTimer(singleShot=False, interval=1000)
+    timer = QT.QTimer(singleShot=False, interval=1000)
     timer.timeout.connect(terminate)
     timer.start()
 
-    app.exec_()
+    app.exec()
 
 if __name__ == '__main__':
     test_open_sbSdk_dll()

@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from ..myqt import QT
 import pyqtgraph as pg
 
 import numpy as np
@@ -13,9 +12,9 @@ from ..core import (WidgetNode, register_node_type, InputStream,
 
 
 class MyViewBox(pg.ViewBox):
-    doubleclicked = QtCore.pyqtSignal()
-    gain_zoom = QtCore.pyqtSignal(float, float)
-    xsize_zoom = QtCore.pyqtSignal(float)
+    doubleclicked = QT.pyqtSignal()
+    gain_zoom = QT.pyqtSignal(float, float)
+    xsize_zoom = QT.pyqtSignal(float)
     def __init__(self, *args, **kwds):
         pg.ViewBox.__init__(self, *args, **kwds)
         self.disableAutoRange()
@@ -31,7 +30,7 @@ class MyViewBox(pg.ViewBox):
         #~ x, y = pos.x(), pos.y()
         y_baseline = pos.y()
         
-        if ev.modifiers() == QtCore.Qt.ControlModifier:
+        if ev.modifiers() == QT.Qt.ControlModifier:
             gain = 10 if ev.delta()>0 else 1/10.
         else:
             gain = 1.3 if ev.delta()>0 else 1/1.3
@@ -61,7 +60,7 @@ class BaseOscilloscope(WidgetNode):
     def __init__(self, **kargs):
         WidgetNode.__init__(self, **kargs)
         
-        self.layout = QtWidgets.QVBoxLayout()
+        self.layout = QT.QVBoxLayout()
         self.setLayout(self.layout)
         
         self.graphicsview = pg.GraphicsView()
@@ -121,7 +120,7 @@ class BaseOscilloscope(WidgetNode):
         
         if self.with_user_dialog and self._ControllerClass:
             self.params_controller = self._ControllerClass(parent=self, viewer=self)
-            self.params_controller.setWindowFlags(QtCore.Qt.Window)
+            self.params_controller.setWindowFlags(QT.Qt.Window)
             #~ self.viewBox.doubleclicked.connect(self.show_params_controller)
         else:
             self.params_controller = None
@@ -131,7 +130,7 @@ class BaseOscilloscope(WidgetNode):
         self.poller.new_data.connect(self._on_new_data)
         # timer
         self._head = 0
-        self.timer = QtCore.QTimer(singleShot=False, interval=100)
+        self.timer = QT.QTimer(singleShot=False, interval=100)
         self.timer.timeout.connect(self.refresh)
 
     def _start(self):
@@ -183,25 +182,25 @@ class BaseOscilloscope(WidgetNode):
             self.params['xsize'] = newsize
 
 
-class OscilloscopeController(QtWidgets.QWidget):
-    channel_visibility_changed = QtCore.pyqtSignal()
+class OscilloscopeController(QT.QWidget):
+    channel_visibility_changed = QT.pyqtSignal()
     
     def __init__(self, parent=None, viewer=None):
-        QtWidgets.QWidget.__init__(self, parent)
+        QT.QWidget.__init__(self, parent)
         
         self._viewer = weakref.ref(viewer)
         
         # layout
-        self.mainlayout = QtWidgets.QVBoxLayout()
+        self.mainlayout = QT.QVBoxLayout()
         self.setLayout(self.mainlayout)
         t = 'Options for {}'.format(self.viewer.name)
         self.setWindowTitle(t)
-        self.mainlayout.addWidget(QtWidgets.QLabel('<b>'+t+'<\b>'))
+        self.mainlayout.addWidget(QT.QLabel('<b>'+t+'<\b>'))
         
-        h = QtWidgets.QHBoxLayout()
+        h = QT.QHBoxLayout()
         self.mainlayout.addLayout(h)
         
-        self.v1 = QtWidgets.QVBoxLayout()
+        self.v1 = QT.QVBoxLayout()
         h.addLayout(self.v1)
         self.tree_params = pg.parametertree.ParameterTree()
         self.tree_params.setParameters(self.viewer.params, showTop=True)
@@ -213,32 +212,32 @@ class OscilloscopeController(QtWidgets.QWidget):
         h.addWidget(self.tree_by_channel_params)
         self.tree_by_channel_params.setParameters(self.viewer.by_channel_params, showTop=True)
 
-        v = QtWidgets.QVBoxLayout()
+        v = QT.QVBoxLayout()
         h.addLayout(v)
         
         self.channel_visibility_changed.connect(self.on_channel_visibility_changed)
 
-        but = QtWidgets.QPushButton('Auto scale')
+        but = QT.QPushButton('Auto scale')
         v.addWidget(but)
         #~ but.clicked.connect(self.compute_rescale)
         but.clicked.connect(self.on_channel_visibility_changed)
         
         
         if self.viewer.nb_channel>1:
-            v.addWidget(QtWidgets.QLabel('<b>Select channel...</b>'))
+            v.addWidget(QT.QLabel('<b>Select channel...</b>'))
             names = [ '{}: {}'.format(c, name) for c, name in enumerate(self.viewer.channel_names)]
-            self.qlist = QtWidgets.QListWidget()
+            self.qlist = QT.QListWidget()
             v.addWidget(self.qlist, 2)
             self.qlist.addItems(names)
-            self.qlist.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
+            self.qlist.setSelectionMode(QT.QAbstractItemView.ExtendedSelection)
             self.qlist.doubleClicked.connect(self.on_double_clicked)
             
             for i in range(len(names)):
                 self.qlist.item(i).setSelected(True)            
-            v.addWidget(QtWidgets.QLabel('<b>and apply...<\b>'))
+            v.addWidget(QT.QLabel('<b>and apply...<\b>'))
             
         # Gain and offset
-        but = QtWidgets.QPushButton('set visble')
+        but = QT.QPushButton('set visble')
         v.addWidget(but)
         but.clicked.connect(self.on_set_visible)
         

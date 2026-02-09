@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 from pyacq import Node,WidgetNode
 from pyacq.core.node import _MyTest
-from pyqtgraph.Qt import QtCore, QtWidgets
+from ...myqt import QT
 import numpy as np
 
 
@@ -20,7 +19,7 @@ class FakeSender(Node):
     
     def _initialize(self):
         self.n = 0
-        self.timer = QtCore.QTimer(singleShot=False, interval=int(256*self.sample_interval*1000))
+        self.timer = QT.QTimer(singleShot=False, interval=int(256*self.sample_interval*1000))
         self.timer.timeout.connect(self.send_data)
 
     def check_output_specs(self):
@@ -50,7 +49,7 @@ class FakeReceiver(Node):
         #~ print('I am node ', self.name, 'configured')
 
     def _initialize(self):
-        self.timer = QtCore.QTimer(singleShot=False)
+        self.timer = QT.QTimer(singleShot=False)
         self.timer.setInterval(50)
         self.timer.timeout.connect(self.poll_socket)
     
@@ -75,8 +74,8 @@ class ReceiverWidget(WidgetNode):
     def __init__(self, tag='label', **kargs):
         WidgetNode.__init__(self, **kargs)
         self.tag = tag
-        self.label = QtWidgets.QLabel()
-        self.layout = QtWidgets.QHBoxLayout()
+        self.label = QT.QLabel()
+        self.layout = QT.QHBoxLayout()
         self.layout.addWidget(self.label)
         self.setLayout(self.layout)
 
@@ -84,7 +83,7 @@ class ReceiverWidget(WidgetNode):
         pass
 
     def _initialize(self):
-        self.timer = QtCore.QTimer(singleShot=False)
+        self.timer = QT.QTimer(singleShot=False)
         self.timer.setInterval(50)
         self.timer.timeout.connect(self.poll_socket)
     

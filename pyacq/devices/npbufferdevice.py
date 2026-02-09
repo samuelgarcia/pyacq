@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 import numpy as np
 
 from ..core import Node, register_node_type
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 
 
 class NumpyDeviceBuffer(Node):
@@ -72,7 +71,7 @@ class NumpyDeviceBuffer(Node):
     def _initialize(self):
         self.head = 0
         ival = int(self.chunksize * self.sample_interval * 1000)
-        self.timer = QtCore.QTimer(singleShot=False, interval=ival)
+        self.timer = QT.QTimer(singleShot=False, interval=ival)
         self.timer.timeout.connect(self.send_data)
     
     def _start(self):

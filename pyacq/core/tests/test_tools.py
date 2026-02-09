@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 from pyacq.core import OutputStream, InputStream
 from pyacq.core.tools import ThreadPollInput, StreamConverter, ChannelSplitter, ChunkResizer
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 import pyqtgraph as pg
 
 import numpy as np
@@ -22,9 +21,9 @@ stream_spec = dict(protocol='tcp', interface='127.0.0.1', port='*',
                    compression ='', scale = None, offset = None, units = '')
 
 
-class ThreadSender(QtCore.QThread):
+class ThreadSender(QT.QThread):
     def __init__(self, output_stream, parent=None):
-        QtCore.QThread.__init__(self, parent)
+        QT.QThread.__init__(self, parent)
         self.output_stream = weakref.ref(output_stream)
     
     def run(self):
@@ -69,7 +68,7 @@ def test_ThreadPollInput():
     poller.start()
     sender.start()
     
-    app.exec_()
+    app.exec()
 
 
 def test_streamconverter():
@@ -125,7 +124,7 @@ def test_streamconverter():
     sender.start()
     
     
-    app.exec_()
+    app.exec()
 
 
 def test_stream_splitter():
@@ -171,7 +170,7 @@ def test_stream_splitter():
     sender.start()
     
     
-    app.exec_()
+    app.exec()
 
 
 def test_ChunkResizer():
@@ -212,7 +211,7 @@ def test_ChunkResizer():
     sender.start()
     
     
-    app.exec_()
+    app.exec()
     
     
 

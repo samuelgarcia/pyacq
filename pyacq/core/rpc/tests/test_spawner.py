@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -22,8 +21,11 @@ def test_spawner():
     proc = ProcessSpawner(qt=True)
     cli = proc.client
 
-    rqt = cli._import('pyqtgraph.Qt')
-    assert rqt.QtWidgets.QApplication.instance() is not None
+    # rqt = cli._import('pyqtgraph.Qt')
+    # assert rqt.QT.QApplication.instance() is not None
+
+    rqt = cli._import('pyacq.myqt')
+    assert rqt.QT.QApplication.instance() is not None
 
     # test closing Qt process
     proc.stop()

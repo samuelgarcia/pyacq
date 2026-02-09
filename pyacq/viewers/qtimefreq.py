@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from ..myqt import QT
 import pyqtgraph as pg
 from pyqtgraph.util.mutex import Mutex
 
@@ -109,7 +108,7 @@ class QTimeFreq(WidgetNode):
     def __init__(self, **kargs):
         WidgetNode.__init__(self, **kargs)
         
-        self.mainlayout = QtWidgets.QHBoxLayout()
+        self.mainlayout = QT.QHBoxLayout()
         self.setLayout(self.mainlayout)
         
         self.graphiclayout = pg.GraphicsLayoutWidget()
@@ -168,7 +167,7 @@ class QTimeFreq(WidgetNode):
 
         #~ self.global_poller = ThreadPollInput(input_stream=self.input, return_data=None) # only valid when no conv
         self.global_poller = ThreadPollOutput(output_stream=self.conv.output, return_data=False)
-        self.global_timer = QtCore.QTimer(interval=500)
+        self.global_timer = QT.QTimer(interval=500)
         self.global_timer.timeout.connect(self.compute_maps)
         
         if not self.local_workers:
@@ -220,7 +219,7 @@ class QTimeFreq(WidgetNode):
                                                     (self.initialize_time_freq, False),
                                                     (self.initialize_plots, False),
                                                     ])
-        self.timer_action = QtCore.QTimer(singleShot=True, interval=300)
+        self.timer_action = QT.QTimer(singleShot=True, interval=300)
         self.timer_action.timeout.connect(self.apply_actions)
         
         # Create parameters
@@ -238,7 +237,7 @@ class QTimeFreq(WidgetNode):
         
         if self.with_user_dialog:
             self.params_controller = TimeFreqController(parent=self, viewer=self)
-            self.params_controller.setWindowFlags(QtCore.Qt.Window)
+            self.params_controller.setWindowFlags(QT.Qt.Window)
         else:
             self.params_controller = None
         
@@ -383,7 +382,7 @@ class QTimeFreq(WidgetNode):
                 image = pg.ImageItem()
                 image.setImage(np.zeros((self.plot_length,self.wavelet_fourrier.shape[1])), lut=self.lut, levels=[0,clim])
                 self.plots[i].addItem(image)
-                image.setRect(QtCore.QRectF(-self.wanted_size, f_start,self.wanted_size, f_stop-f_start))
+                image.setRect(QT.QRectF(-self.wanted_size, f_start,self.wanted_size, f_stop-f_start))
                 self.plots[i].setXRange(-self.wanted_size, 0.)
                 self.plots[i].setYRange(f_start, f_stop)
                 self.images[i] =image
@@ -555,12 +554,12 @@ def generate_wavelet_fourier(len_wavelet, f_start, f_stop, deltafreq, sample_rat
 
 
 
-class ComputeThread(QtCore.QThread):
+class ComputeThread(QT.QThread):
     """
     Worker thread used internally by TimeFreqWorker.
     """
     def __init__(self, in_stream, out_stream, channel, local, parent=None):
-        QtCore.QThread.__init__(self, parent)
+        QT.QThread.__init__(self, parent)
         self.in_stream = in_stream
         self.out_stream = out_stream
         self.channel = channel
@@ -608,11 +607,11 @@ class ComputeThread(QtCore.QThread):
         self.out_stream.send(wt, index=head)
         #~ t3 = time.time()
         
-        # print('compute', self.channel,  t2-t1, t3-t2, t3-t1, QtCore.QThread.currentThreadId())
+        # print('compute', self.channel,  t2-t1, t3-t2, t3-t1, QT.QThread.currentThreadId())
 
 
 
-class TimeFreqWorker(Node, QtCore.QObject):
+class TimeFreqWorker(Node, QT.QObject):
     """
     TimeFreqWorker is a Node that computes the frequency spectrogram with a 
     Morlet continuous wavelet transform.
@@ -631,10 +630,10 @@ class TimeFreqWorker(Node, QtCore.QObject):
     _input_specs = {'signals': dict(streamtype='signals', transfermode='sharedmem', axisorder=[1,0], double=True)}
     _output_specs = {'timefreq': dict(streamtype='image', dtype='float32')}
     
-    wt_map_done = QtCore.pyqtSignal(int)
+    wt_map_done = QT.pyqtSignal(int)
     def __init__(self, **kargs):
         parent = kargs.pop('parent', None)
-        QtCore.QObject.__init__(self, parent)
+        QT.QObject.__init__(self, parent)
         Node.__init__(self, **kargs)
         assert HAVE_SCIPY, "TimeFreqWorker node depends on the `scipy` package, but it could not be imported."
     
@@ -701,23 +700,23 @@ register_node_type(TimeFreqWorker)
 
 
 
-class TimeFreqController(QtWidgets.QWidget):
+class TimeFreqController(QT.QWidget):
     """
     GUI controller for QTimeFreq.
     """
     def __init__(self, parent=None, viewer=None):
-        QtWidgets.QWidget.__init__(self, parent)
+        QT.QWidget.__init__(self, parent)
         
         self._viewer = weakref.ref(viewer)
         
         # layout
-        self.mainlayout = QtWidgets.QVBoxLayout()
+        self.mainlayout = QT.QVBoxLayout()
         self.setLayout(self.mainlayout)
         t = 'Options for {}'.format(self.viewer.name)
         self.setWindowTitle(t)
-        self.mainlayout.addWidget(QtWidgets.QLabel('<b>'+t+'<\b>'))
+        self.mainlayout.addWidget(QT.QLabel('<b>'+t+'<\b>'))
         
-        h = QtWidgets.QHBoxLayout()
+        h = QT.QHBoxLayout()
         self.mainlayout.addLayout(h)
 
         self.tree_params = pg.parametertree.ParameterTree()
@@ -730,36 +729,36 @@ class TimeFreqController(QtWidgets.QWidget):
         h.addWidget(self.tree_by_channel_params)
         self.tree_by_channel_params.setParameters(self.viewer.by_channel_params, showTop=True)
 
-        v = QtWidgets.QVBoxLayout()
+        v = QT.QVBoxLayout()
         h.addLayout(v)
 
-        but = QtWidgets.QPushButton('Auto scale')
+        but = QT.QPushButton('Auto scale')
         but.clicked.connect(self.viewer.auto_clim)
         v.addWidget(but)
         
         if self.viewer.nb_channel>1:
-            v.addWidget(QtWidgets.QLabel('<b>Select channel...</b>'))
+            v.addWidget(QT.QLabel('<b>Select channel...</b>'))
             names = [ '{}: {}'.format(c, name) for c, name in enumerate(self.viewer.channel_names)]
-            self.qlist = QtWidgets.QListWidget()
+            self.qlist = QT.QListWidget()
             self.qlist.doubleClicked.connect(self.on_double_clicked)
             v.addWidget(self.qlist, 2)
             self.qlist.addItems(names)
-            self.qlist.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
+            self.qlist.setSelectionMode(QT.QAbstractItemView.ExtendedSelection)
             
             for i in range(len(names)):
                 self.qlist.item(i).setSelected(True)            
-            v.addWidget(QtWidgets.QLabel('<b>and apply...<\b>'))
+            v.addWidget(QT.QLabel('<b>and apply...<\b>'))
         
-        but = QtWidgets.QPushButton('set visble')
+        but = QT.QPushButton('set visble')
         v.addWidget(but)
         but.clicked.connect(self.on_set_visible)
         
         
-        v.addWidget(QtWidgets.QLabel(self.tr('<b>Clim change (mouse wheel on graph):</b>'),self))
-        h = QtWidgets.QHBoxLayout()
+        v.addWidget(QT.QLabel(self.tr('<b>Clim change (mouse wheel on graph):</b>'),self))
+        h = QT.QHBoxLayout()
         v.addLayout(h)
         for label, factor in [('--', 1./10.), ('-', 1./1.3), ('+', 1.3), ('++', 10.),]:
-            but = QtWidgets.QPushButton(label)
+            but = QT.QPushButton(label)
             but.factor = factor
             but.clicked.connect(self.clim_zoom)
             h.addWidget(but)

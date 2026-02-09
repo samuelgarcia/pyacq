@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -9,7 +8,7 @@ import atexit
 import numpy as np
 import zmq
 from collections import OrderedDict
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 from .node import Node, register_node_type
@@ -17,7 +16,7 @@ from .stream import OutputStream, InputStream
 from .stream.arraytools import make_dtype
 
 
-class ThreadPollInput(QtCore.QThread):
+class ThreadPollInput(QT.QThread):
     """Thread that polls an InputStream in the background and emits a signal
     when data is received.
     
@@ -43,10 +42,10 @@ class ThreadPollInput(QtCore.QThread):
     
     The `process_data()` method may be reimplemented to define other behaviors.
     """
-    new_data = QtCore.Signal(int, object)
+    new_data = QT.Signal(int, object)
     
     def __init__(self, input_stream, timeout=200, return_data=None, parent=None):
-        QtCore.QThread.__init__(self, parent)
+        QT.QThread.__init__(self, parent)
         self.input_stream = weakref.ref(input_stream)
         self.timeout = timeout
         self.return_data = return_data

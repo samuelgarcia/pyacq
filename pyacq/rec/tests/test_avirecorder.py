@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -7,7 +6,7 @@ import shutil
 
 import pyqtgraph as pg
 import pytest
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 
 from pyacq.devices.webcam_av import WebCamAV, HAVE_AV
 from pyacq.rec.avirecorder import AviRecorder
@@ -69,14 +68,14 @@ def test_AviRecorder():
         
     
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=10000)
+    timer = QT.QTimer(singleShot=True, interval=10000)
     timer.timeout.connect(terminate)
     timer.start()
-    timer2 = QtCore.QTimer(singleShot=True, interval=1500)
+    timer2 = QT.QTimer(singleShot=True, interval=1500)
     timer2.timeout.connect(start_rec)
     timer2.start()
 
-    app.exec_()
+    app.exec()
 
 
 

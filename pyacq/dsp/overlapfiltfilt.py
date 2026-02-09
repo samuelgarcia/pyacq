@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 import pyqtgraph as pg
 from pyqtgraph.util.mutex import Mutex
 import numpy as np
@@ -387,7 +386,7 @@ class SosFiltfiltThread(ThreadPollInput):
             self.filter_engine = EngineClass(coefficients, nb_channel, dtype, chunksize, overlapsize)
 
 
-class OverlapFiltfilt(Node,  QtCore.QObject):
+class OverlapFiltfilt(Node,  QT.QObject):
     """
     Node for filtering with forward-backward method (filtfilt) using second order
     (sos) coefficient and a sliding, overlapping window.
@@ -427,7 +426,7 @@ class OverlapFiltfilt(Node,  QtCore.QObject):
     _output_specs = {'signals' : dict(streamtype = 'signals')}
     
     def __init__(self, parent = None, **kargs):
-        QtCore.QObject.__init__(self, parent)
+        QT.QObject.__init__(self, parent)
         Node.__init__(self, **kargs)
         assert HAVE_SCIPY, "SosFilter need scipy>0.16"
     

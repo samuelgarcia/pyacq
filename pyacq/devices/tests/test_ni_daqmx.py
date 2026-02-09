@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -8,7 +7,7 @@ from pyacq import create_manager
 from pyacq.devices.ni_daqmx import NIDAQmx, HAVE_NIDAQMX
 
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from pyacq.myqt import QT
 
 import pytest
 
@@ -16,7 +15,7 @@ import pytest
 @pytest.mark.skipif(not HAVE_NIDAQMX, reason='no have nidaqmx')
 def test_ni_daqmx():
     # in main App
-    app = QtWidgets.QApplication([])
+    app = QT.QApplication([])
 
     dev = NIDAQmx()
     dev.configure(sample_rate=50e3, aichannels=['Dev1/ai0', 'Dev1/ai1'], 
@@ -45,11 +44,11 @@ def test_ni_daqmx():
             app.quit()
     
     # start  and stop 3 times
-    timer = QtCore.QTimer(singleShot=False, interval=1000)
+    timer = QT.QTimer(singleShot=False, interval=1000)
     timer.timeout.connect(terminate)
     timer.start()
 
-    app.exec_()
+    app.exec()
 
 if __name__ == '__main__':
     test_ni_daqmx()

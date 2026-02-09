@@ -1,6 +1,6 @@
 import time
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 
 from pyacq import create_manager
 from pyacq import MeasurementComputing
@@ -56,11 +56,11 @@ def test_measurementcomputing_multiple_start_stop():
             app.quit()
     
     # start  and stop 3 times
-    timer = QtCore.QTimer(singleShot=False, interval=1000)
+    timer = QT.QTimer(singleShot=False, interval=1000)
     timer.timeout.connect(stop_and_start)
     timer.start()
 
-    app.exec_()
+    app.exec()
 
 @pytest.mark.skip('Need a device for test')
 def test_measurementcomputing_USB1608_FS_PLUS():
@@ -108,11 +108,11 @@ def test_measurementcomputing_USB1608_FS_PLUS():
         app.quit()
     
     # start for a while
-    timer = QtCore.QTimer(singleShot = True, interval = 10000)
+    timer = QT.QTimer(singleShot = True, interval = 10000)
     timer.timeout.connect(terminate)
     #~ timer.start()
 
-    app.exec_()
+    app.exec()
 
 
 
@@ -172,11 +172,11 @@ def test_measurementcomputing_USB2533():
         app.quit()
     
     # start for a while
-    timer = QtCore.QTimer(singleShot = True, interval = 10000)
+    timer = QT.QTimer(singleShot = True, interval = 10000)
     timer.timeout.connect(terminate)
     #~ timer.start()
     
-    app.exec_()
+    app.exec()
 
 
 if __name__ == '__main__':

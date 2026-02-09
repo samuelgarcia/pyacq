@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -7,7 +6,7 @@ import shutil
 
 import numpy as np
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 
 from pyacq import create_manager
 from pyacq.rec import RawRecorder
@@ -76,11 +75,11 @@ def test_RawRecorder():
         dev.start()
     
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=2000)
+    timer = QT.QTimer(singleShot=True, interval=2000)
     timer.timeout.connect(terminate)
     timer.start()
     
-    app.exec_()
+    app.exec()
 
     man.close()
 

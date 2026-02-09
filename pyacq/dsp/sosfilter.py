@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 import packaging.version
 import numpy as np
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 from ..core import (Node, register_node_type, ThreadPollInput)
@@ -358,7 +357,7 @@ class SosFilterThread(ThreadPollInput):
             self.filter_engine = EngineClass(coefficients, nb_channel, dtype, chunksize)
 
 
-class SosFilter(Node,  QtCore.QObject):
+class SosFilter(Node,  QT.QObject):
     """
     Node for filtering multi channel signals.
     This uses a second order filter, it is a casde of IIR filter of order 2.
@@ -394,7 +393,7 @@ class SosFilter(Node,  QtCore.QObject):
     _output_specs = {'signals' : dict(streamtype = 'signals')}
     
     def __init__(self, parent = None, **kargs):
-        QtCore.QObject.__init__(self, parent)
+        QT.QObject.__init__(self, parent)
         Node.__init__(self, **kargs)
         assert HAVE_SCIPY, "SosFilter need scipy>0.16"
     

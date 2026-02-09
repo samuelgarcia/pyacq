@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 import numpy as np
 
 from ..core import Node, register_node_type
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 import socket
@@ -35,9 +34,9 @@ def recv_brainamp_frame(brainamp_socket, reqsize):
     return buf
 
 
-class BrainAmpThread(QtCore.QThread):
+class BrainAmpThread(QT.QThread):
     def __init__(self, outputs, brainamp_host, brainamp_port, nb_channel, parent=None):
-        QtCore.QThread.__init__(self)
+        QT.QThread.__init__(self)
         self.outputs = outputs
         self.brainamp_host= brainamp_host
         self.brainamp_port= brainamp_port

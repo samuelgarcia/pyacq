@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 import pyqtgraph as pg
 import weakref
 import numpy as np
@@ -12,7 +11,7 @@ from ..core import (Node, register_node_type, ThreadPollInput, StreamConverter)
 
 
 class TriggerThread(ThreadPollInput):
-    new_triggers = QtCore.pyqtSignal(object)
+    new_triggers = QT.pyqtSignal(object)
     
     def __init__(self, input_stream, output_stream, timeout = 200, parent = None, emit_qt_signal=False):
         ThreadPollInput.__init__(self, input_stream, timeout = timeout, return_data=None, parent = parent)
@@ -114,7 +113,7 @@ class DigitalTriggerThread(TriggerThread):
         self.mask = 1<<(self.channel%dt.itemsize)
 
 
-class TriggerBase(Node,  QtCore.QObject):
+class TriggerBase(Node,  QT.QObject):
     _input_specs = {'signals' : dict(streamtype = 'signals')}
     _output_specs = {'events' : dict(streamtype = 'events', dtype ='int64', shape = (-1, ))}
     
@@ -127,10 +126,10 @@ class TriggerBase(Node,  QtCore.QObject):
                         {'name': 'debounce_time', 'type': 'float', 'value': 0.01},
                 ]
     
-    new_params = QtCore.Signal(object)
+    new_params = QT.Signal(object)
     
     def __init__(self, parent = None, **kargs):
-        QtCore.QObject.__init__(self, parent)
+        QT.QObject.__init__(self, parent)
         Node.__init__(self, **kargs)
         self.params = pg.parametertree.Parameter.create( name='Trigger options',
                                                     type='group', children =self._default_params)

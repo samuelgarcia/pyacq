@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -8,7 +7,7 @@ from pyacq import create_manager
 from pyacq.devices.eeg_openBCI import OpenBCI, HAVE_PYSERIAL
 from pyacq.viewers import QOscilloscope
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from pyacq.myqt import QT
 
 import pytest
 
@@ -16,7 +15,7 @@ import pytest
 @pytest.mark.skipif(not HAVE_PYSERIAL, reason='no have pyserial')
 def test_eeg_OpenBCI():
     # in main App
-    app = QtWidgets.QApplication([])
+    app = QT.QApplication([])
 
     dev = OpenBCI()
     dev.configure(device_handle='/dev/ttyUSB0')
@@ -42,11 +41,11 @@ def test_eeg_OpenBCI():
         app.quit()
 
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=100000)
+    timer = QT.QTimer(singleShot=True, interval=100000)
     timer.timeout.connect(terminate)
     timer.start()
 
-    app.exec_()
+    app.exec()
 
 if __name__ == '__main__':
     test_eeg_OpenBCI()

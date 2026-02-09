@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -11,7 +10,7 @@ import zmq
 import logging
 import threading
 import time
-from pyqtgraph.Qt import QtCore
+
 
 from .client import RPCClient
 from .log import get_logger_address, LogSender

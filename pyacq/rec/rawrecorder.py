@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -6,7 +5,7 @@ import collections
 import json
 import os
 
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 from ..core import Node, register_node_type, ThreadPollInput, InputStream
@@ -134,7 +133,7 @@ def _flush_dict(filename, d):
 
 
 class ThreadRec(ThreadPollInput):
-    recv_start_index = QtCore.Signal(str, int)
+    recv_start_index = QT.Signal(str, int)
     def __init__(self, name, input_stream,fid, timeout=200, flush_every_packet=False, parent=None):
         ThreadPollInput.__init__(self, input_stream, timeout=timeout, return_data=True, parent=parent)
         self.name = name

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -7,7 +6,6 @@ import collections
 import logging
 
 from ..core import Node, register_node_type, ThreadPollInput
-from pyqtgraph.Qt import QtCore
 from pyqtgraph.util.mutex import Mutex
 
 try:

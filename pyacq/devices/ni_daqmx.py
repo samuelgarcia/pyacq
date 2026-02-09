@@ -1,7 +1,7 @@
 import numpy as np
 
 from ..core import Node, register_node_type
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 try:
@@ -203,9 +203,9 @@ class NIDAQmx(Node):
         self.aotask = None
         return 0
 
-class DAQmxPollThread(QtCore.QThread):
+class DAQmxPollThread(QT.QThread):
     def __init__(self, node, parent=None):
-        QtCore.QThread.__init__(self, parent=parent)
+        QT.QThread.__init__(self, parent=parent)
         self.node = node
 
         self.lock = Mutex()

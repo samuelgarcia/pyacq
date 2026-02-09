@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -7,7 +6,7 @@ import pytest
 
 from pyacq.devices.eeg_emotiv import Emotiv, HAVE_PYCRYPTO
 from pyacq.viewers.qoscilloscope import QOscilloscope
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 import pyqtgraph as pg
 
 from collections import OrderedDict
@@ -109,11 +108,11 @@ def test_eeg_emotiv_direct():
         app.quit()
 
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=3000)
+    timer = QT.QTimer(singleShot=True, interval=3000)
     timer.timeout.connect(terminate)
     #~ timer.start()
 
-    app.exec_()
+    app.exec()
 
 
 if __name__ == '__main__':

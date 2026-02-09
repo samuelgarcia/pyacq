@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
@@ -8,7 +7,7 @@ from pyacq import create_manager
 from pyacq.devices.webcam_av import WebCamAV, HAVE_AV, get_device_list_dshow
 from pyacq.viewers.imageviewer import ImageViewer
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from pyacq.myqt import QT
 
 import pytest
 
@@ -16,7 +15,7 @@ import pytest
 @pytest.mark.skipif(not HAVE_AV, reason='no have av')
 def test_webcam_opencv():
     # in main App
-    app = QtWidgets.QApplication([])
+    app = QT.QApplication([])
     
     dev = WebCamAV(name='cam')
     dev.configure(camera_num=0)
@@ -41,10 +40,10 @@ def test_webcam_opencv():
         app.quit()
     
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=3000)
+    timer = QT.QTimer(singleShot=True, interval=3000)
     timer.timeout.connect(terminate)
     #~ timer.start()
-    app.exec_()
+    app.exec()
 
 @pytest.mark.skip(reason="need Device")
 @pytest.mark.skipif(not HAVE_AV, reason='no have av')

@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 import numpy as np
 import pyqtgraph as pg
-from pyqtgraph.Qt import QtCore
+from pyacq.myqt import QT
 
 from pyacq import NumpyDeviceBuffer
 from pyacq.dsp.trigger import AnalogTrigger
@@ -75,11 +74,11 @@ def test_TriggerAccumulator():
         app.quit()
     
     # start for a while
-    timer = QtCore.QTimer(singleShot=True, interval=6000)
+    timer = QT.QTimer(singleShot=True, interval=6000)
     timer.timeout.connect(terminate)
     timer.start()
     
-    app.exec_()
+    app.exec()
 
     assert triggeraccumulator.total_trig==6
 

@@ -76,4 +76,4 @@ if 'address' in status:
     server.run_forever()
     
 if conf['qt']:
-    app.exec_()
+    app.exec()

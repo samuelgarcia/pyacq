@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
-from pyqtgraph.Qt import QtCore, QtWidgets
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 from .nodelist import register_node_type
@@ -271,17 +270,17 @@ class Node(object):
     
 
 
-class WidgetNode(QtWidgets.QWidget, Node):
+class WidgetNode(QT.QWidget, Node):
     """Base class for Nodes that implement a QWidget user interface.
     """
     def __init__(self, parent=None, close_node_on_widget_closed=True, **kargs):
-        QtWidgets.QWidget.__init__(self, parent=parent)
+        QT.QWidget.__init__(self, parent=parent)
         Node.__init__(self, **kargs)
         self._close_node_on_widget_closed = close_node_on_widget_closed
     
     def close(self):
         Node.close(self)
-        QtWidgets.QWidget.close(self)
+        QT.QWidget.close(self)
 
     def closeEvent(self,event):
         if self._close_node_on_widget_closed:

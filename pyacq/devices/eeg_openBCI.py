@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
 import numpy as np
 
 from ..core import Node, register_node_type
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 import struct
@@ -24,9 +23,9 @@ _START_BYTE = 0xA0  # start of data packet
 _END_BYTE = 0xC0  # end of data packet
 
 
-class OpenBCIThread(QtCore.QThread):
+class OpenBCIThread(QT.QThread):
     def __init__(self, outputs, serial_port, nb_channel, nb_aux):
-        QtCore.QThread.__init__(self)
+        QT.QThread.__init__(self)
         self.outputs = outputs
         self.n = 0
         self.serial_port = serial_port

@@ -6,7 +6,7 @@ import sys
 import ctypes
 from ctypes import byref
 
-from pyqtgraph.Qt import QtCore
+from ..myqt import QT
 from pyqtgraph.util.mutex import Mutex
 
 from ..core import Node, register_node_type
@@ -337,12 +337,12 @@ class MeasurementComputing(Node):
 register_node_type(MeasurementComputing)
 
 
-class MeasurementComputingThread(QtCore.QThread):
+class MeasurementComputingThread(QT.QThread):
     """
     MeasurementComputing thread that grab continuous data.
     """
     def __init__(self, node, parent=None):
-        QtCore.QThread.__init__(self, parent=parent)
+        QT.QThread.__init__(self, parent=parent)
         
         self.node = node
 
